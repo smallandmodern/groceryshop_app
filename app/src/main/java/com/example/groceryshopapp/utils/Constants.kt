@@ -10,5 +10,7 @@ object Constants {
 
      const val ADD_TO_CART:String="Add to Cart"
      const val OUT_OF_STOCK:String="Out of Stock"
-     const val REMOVE_FROM_CART:String="Remove from Cart"
+     const val REMOVE_FROM_CART:String="Remove"
+
+     const val ITEM_OUT_OF_STOCK:String="Item out of Stock"
 }

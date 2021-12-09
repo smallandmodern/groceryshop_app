@@ -33,5 +33,10 @@
 
 
 
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+
+
+
 
 </resources>

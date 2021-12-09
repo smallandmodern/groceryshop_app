@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import com.example.groceryshopapp.R
 import com.example.groceryshopapp.adapters.GroceryCartListAdapter
 import com.example.groceryshopapp.adapters.GroceryListAdapter
@@ -11,7 +12,7 @@ import com.example.groceryshopapp.databinding.ActivityMyCartBinding
 import com.example.groceryshopapp.models.GroceryModel
 import com.example.groceryshopapp.utils.Constants
 
-class MyCartActivity : BaseActivity(), GroceryCartListAdapter.RemoveFromCartClickListner {
+class MyCartActivity : BaseActivity(), GroceryCartListAdapter.RemoveFromCartClickListner,GroceryCartListAdapter.MinusButtonClickListner,GroceryCartListAdapter.PlusButtonClickListner {
 
     private var binding: ActivityMyCartBinding? = null
     private var myCartList: ArrayList<GroceryModel>? = null
@@ -56,6 +57,8 @@ class MyCartActivity : BaseActivity(), GroceryCartListAdapter.RemoveFromCartClic
         if (!myCartList.isNullOrEmpty()) {
             cartAdapter = GroceryCartListAdapter(myCartList as ArrayList<GroceryModel>)
             cartAdapter.setRemoveFromCartClickListner(this)
+            cartAdapter.setMinusButtonClickListner(this)
+            cartAdapter.setPlusButtonClickListner(this)
             binding?.rvCart?.adapter = cartAdapter
             binding?.txtNoData?.visibility = View.GONE
             binding?.rvCart?.visibility = View.VISIBLE
@@ -82,7 +85,7 @@ class MyCartActivity : BaseActivity(), GroceryCartListAdapter.RemoveFromCartClic
        // finish()
     }
 
-    override fun onclick(position: Int, gorceryItem: GroceryModel) {
+    override fun onclick(position: Int) {
 
         myCartList?.removeAt(position)
         cartAdapter.notifyDataSetChanged()
@@ -94,6 +97,35 @@ class MyCartActivity : BaseActivity(), GroceryCartListAdapter.RemoveFromCartClic
         }
         setPrice()
 
+    }
+
+    override fun onclickPlusClick(position: Int, gorceryItem: GroceryModel) {
+
+       if(myCartList?.get(position)?.orderedCount!! <= myCartList?.get(position)?.count!!)
+       {
+           myCartList?.get(position)?.orderedCount=myCartList?.get(position)?.orderedCount!!+1
+           myCartList?.get(position)?.count=myCartList?.get(position)?.count!!-1
+       }else
+       {
+           Toast.makeText(this,Constants.ITEM_OUT_OF_STOCK,Toast.LENGTH_LONG).show()
+       }
+
+        cartAdapter.notifyDataSetChanged()
+        setPrice()
+    }
+
+    override fun onclickMinusClick(position: Int, gorceryItem: GroceryModel) {
+        if(myCartList?.get(position)?.orderedCount!! > 1)
+        {
+            myCartList?.get(position)?.orderedCount=myCartList?.get(position)?.orderedCount!!-1
+            myCartList?.get(position)?.count=myCartList?.get(position)?.count!!+1
+        }else
+        {
+            onclick(position)
+        }
+
+        cartAdapter.notifyDataSetChanged()
+        setPrice()
     }
 
 

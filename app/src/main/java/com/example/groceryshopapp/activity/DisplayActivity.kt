@@ -161,12 +161,15 @@ class DisplayActivity : BaseActivity(), GroceryListAdapter.AddToCartClickListner
         when (item.itemId) {
             R.id.item_my_cart -> {
 
-                var intent = Intent(this@DisplayActivity, MyCartActivity::class.java)
-                intent.putExtra(Constants.MY_CART_GROCERY_LIST, groceryCartList)
-//                startActivity(intent)
 
-                startForResult.launch(intent)
-
+                if(groceryCartList.isEmpty())
+                {
+                    Toast.makeText(this,getString(R.string.no_item_in_cart),Toast.LENGTH_LONG).show()
+                }else {
+                    var intent = Intent(this@DisplayActivity, MyCartActivity::class.java)
+                    intent.putExtra(Constants.MY_CART_GROCERY_LIST, groceryCartList)
+                    startForResult.launch(intent)
+                }
 
             }
             R.id.item_sign_out -> {
