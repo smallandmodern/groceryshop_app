@@ -31,6 +31,7 @@ class DisplayActivity : BaseActivity(), GroceryListAdapter.AddToCartClickListner
     private var binding: ActivityDisplayBinding? = null
 
     private var groceryCartList = ArrayList<GroceryModel>()
+    private var grocerylist= ArrayList<GroceryModel>()
     private lateinit var myCart: TextView
     private lateinit var adapterGroceryList: GroceryListAdapter;
 
@@ -113,7 +114,7 @@ class DisplayActivity : BaseActivity(), GroceryListAdapter.AddToCartClickListner
     fun onGetGroceryListOnSuccessListner(task: Task<QuerySnapshot>) {
         if (task.isSuccessful) {
 
-            val grocerylist: ArrayList<GroceryModel> = ArrayList()
+
             if (task?.result?.documents?.isEmpty() == false) {
 
                 for (i in task?.result?.documents!!) {
@@ -147,8 +148,14 @@ class DisplayActivity : BaseActivity(), GroceryListAdapter.AddToCartClickListner
 
         if (groceryCartList.contains(gorceryItem)) {
             groceryCartList[groceryCartList.indexOf(gorceryItem)].orderedCount++
+            groceryCartList[groceryCartList.indexOf(gorceryItem)].count--
+            grocerylist[grocerylist.indexOf(gorceryItem)].count--
+            adapterGroceryList.notifyDataSetChanged()
         } else {
             gorceryItem.orderedCount = 1
+            //gorceryItem.count--
+            grocerylist[grocerylist.indexOf(gorceryItem)].count--
+            adapterGroceryList.notifyDataSetChanged()
             groceryCartList.add(gorceryItem)
         }
         myCart.setGravity(Gravity.CENTER_VERTICAL);
@@ -160,8 +167,6 @@ class DisplayActivity : BaseActivity(), GroceryListAdapter.AddToCartClickListner
 
         when (item.itemId) {
             R.id.item_my_cart -> {
-
-
                 if(groceryCartList.isEmpty())
                 {
                     Toast.makeText(this,getString(R.string.no_item_in_cart),Toast.LENGTH_LONG).show()
@@ -170,7 +175,6 @@ class DisplayActivity : BaseActivity(), GroceryListAdapter.AddToCartClickListner
                     intent.putExtra(Constants.MY_CART_GROCERY_LIST, groceryCartList)
                     startForResult.launch(intent)
                 }
-
             }
             R.id.item_sign_out -> {
                 FirebaseAuth.getInstance().signOut()

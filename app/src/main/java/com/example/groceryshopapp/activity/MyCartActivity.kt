@@ -32,6 +32,13 @@ class MyCartActivity : BaseActivity(), GroceryCartListAdapter.RemoveFromCartClic
         setActionBar()
         setadapterData()
         setPrice()
+
+        binding?.btnPlaceOrder?.setOnClickListener {
+            val intent = Intent()
+            intent.putExtra(Constants.MY_CART_GROCERY_LIST,myCartList)
+            setResult(RESULT_OK, intent)
+            finish()
+        }
     }
 
     private fun setActionBar() {
@@ -73,16 +80,7 @@ class MyCartActivity : BaseActivity(), GroceryCartListAdapter.RemoveFromCartClic
     }
 
     override fun onBackPressed() {
-
-
-        val intent = Intent()
-        intent.putExtra(Constants.MY_CART_GROCERY_LIST,myCartList)
-        setResult(RESULT_OK, intent)
         finish()
-
-       // intent.putExtra(Constants.MY_CART_GROCERY_LIST,myCartList)
-
-       // finish()
     }
 
     override fun onclick(position: Int) {

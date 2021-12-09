@@ -56,15 +56,15 @@ class GroceryCartListAdapter(var groceryList: List<GroceryModel>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         if (holder is ViewHolder) {
-            holder.txtGroceryName.text = "${groceryList[position].name}\n${groceryList[position].weight}"
+            holder.txtGroceryName.text = "${groceryList[position].name} ${groceryList[position].weight}"
             //holder.txtGroceryWeight.text = groceryList[position].weight
             holder.txtGroceryPrice.text = "€ ${groceryList[position].price}"
             holder.txtOrderedCount.text=groceryList[position].orderedCount.toString()
 
-            holder.txtSubtotal.text=(groceryList[position].price*groceryList[position].orderedCount).toString()
+            holder.txtSubtotal.text="€"+(groceryList[position].price*groceryList[position].orderedCount).toString()
 
 
-            holder.btnAddToCart.setText(Constants.REMOVE_FROM_CART)
+           // holder.btnAddToCart.setText(Constants.REMOVE_FROM_CART)
             holder.btnAddToCart.setOnClickListener(View.OnClickListener {
                 addToCartClickListner?.onclick(position)
             })
