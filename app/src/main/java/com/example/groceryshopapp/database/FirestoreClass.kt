@@ -1,8 +1,10 @@
 package com.example.groceryshopapp.database
 
 import com.example.groceryshopapp.activity.DisplayActivity
+import com.example.groceryshopapp.activity.MyCartActivity
 import com.example.groceryshopapp.activity.SignInActivity
 import com.example.groceryshopapp.activity.SignUpActivity
+import com.example.groceryshopapp.models.GroceryModel
 import com.example.groceryshopapp.models.UserModel
 import com.example.groceryshopapp.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
@@ -45,7 +47,24 @@ class FirestoreClass {
         }
     }
 
+    fun updateGroceryCountList(activity: MyCartActivity,modelList:ArrayList<GroceryModel>) {
 
+
+        modelList.forEach { model ->
+
+            val assignedToHashMap = HashMap<String, Any>()
+            assignedToHashMap[Constants.COUNT] = model.count
+
+            firebaseFirestore.collection(Constants.GROCERY_LIST).document(model.id)
+                .update(assignedToHashMap).addOnCompleteListener {
+
+
+
+                }
+
+        }
+
+    }
     fun getCurrentUserId(): String {
 
         var currentUser=FirebaseAuth.getInstance().currentUser
@@ -55,12 +74,7 @@ class FirestoreClass {
         {
             currentUserID=currentUser.uid
         }
-
         return  currentUserID
-
-
-
-
     }
 
 

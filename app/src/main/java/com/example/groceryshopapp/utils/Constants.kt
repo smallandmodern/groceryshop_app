@@ -13,4 +13,8 @@ object Constants {
      const val REMOVE_FROM_CART:String="Remove"
 
      const val ITEM_OUT_OF_STOCK:String="Item out of Stock"
+
+
+     const val ID:String="id"
+     const val COUNT:String="count"
 }

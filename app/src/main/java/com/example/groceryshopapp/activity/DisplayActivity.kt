@@ -144,11 +144,9 @@ class DisplayActivity : BaseActivity(), GroceryListAdapter.AddToCartClickListner
     }
 
     override fun onclick(position: Int, gorceryItem: GroceryModel) {
-
-
         if (groceryCartList.contains(gorceryItem)) {
             groceryCartList[groceryCartList.indexOf(gorceryItem)].orderedCount++
-            groceryCartList[groceryCartList.indexOf(gorceryItem)].count--
+           // groceryCartList[groceryCartList.indexOf(gorceryItem)].count--
             grocerylist[grocerylist.indexOf(gorceryItem)].count--
             adapterGroceryList.notifyDataSetChanged()
         } else {
@@ -189,10 +187,7 @@ class DisplayActivity : BaseActivity(), GroceryListAdapter.AddToCartClickListner
         }
 
         binding?.drlLayout?.closeDrawer(GravityCompat.START)
-
         return true
-
-
     }
 
     val startForResult =

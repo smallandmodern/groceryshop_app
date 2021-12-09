@@ -8,6 +8,7 @@ import android.widget.Toast
 import com.example.groceryshopapp.R
 import com.example.groceryshopapp.adapters.GroceryCartListAdapter
 import com.example.groceryshopapp.adapters.GroceryListAdapter
+import com.example.groceryshopapp.database.FirestoreClass
 import com.example.groceryshopapp.databinding.ActivityMyCartBinding
 import com.example.groceryshopapp.models.GroceryModel
 import com.example.groceryshopapp.utils.Constants
@@ -15,7 +16,7 @@ import com.example.groceryshopapp.utils.Constants
 class MyCartActivity : BaseActivity(), GroceryCartListAdapter.RemoveFromCartClickListner,GroceryCartListAdapter.MinusButtonClickListner,GroceryCartListAdapter.PlusButtonClickListner {
 
     private var binding: ActivityMyCartBinding? = null
-    private var myCartList: ArrayList<GroceryModel>? = null
+    private lateinit var myCartList: ArrayList<GroceryModel>
 
     private var totalPrice: Double = 0.0
 
@@ -27,13 +28,15 @@ class MyCartActivity : BaseActivity(), GroceryCartListAdapter.RemoveFromCartClic
         setContentView(binding?.root)
 
         myCartList =
-            intent.getSerializableExtra(Constants.MY_CART_GROCERY_LIST) as ArrayList<GroceryModel>?
+            (intent.getSerializableExtra(Constants.MY_CART_GROCERY_LIST) as ArrayList<GroceryModel>?)!!
 
         setActionBar()
         setadapterData()
         setPrice()
 
         binding?.btnPlaceOrder?.setOnClickListener {
+
+            FirestoreClass().updateGroceryCountList(this,myCartList)
             val intent = Intent()
             intent.putExtra(Constants.MY_CART_GROCERY_LIST,myCartList)
             setResult(RESULT_OK, intent)
@@ -102,6 +105,7 @@ class MyCartActivity : BaseActivity(), GroceryCartListAdapter.RemoveFromCartClic
        if(myCartList?.get(position)?.orderedCount!! <= myCartList?.get(position)?.count!!)
        {
            myCartList?.get(position)?.orderedCount=myCartList?.get(position)?.orderedCount!!+1
+
            myCartList?.get(position)?.count=myCartList?.get(position)?.count!!-1
        }else
        {
