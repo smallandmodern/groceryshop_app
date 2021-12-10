@@ -37,10 +37,13 @@ class MyCartActivity : BaseActivity(), GroceryCartListAdapter.RemoveFromCartClic
         binding?.btnPlaceOrder?.setOnClickListener {
 
             FirestoreClass().updateGroceryCountList(this,myCartList)
+
+            FirestoreClass().saveOrderHistory(this,myCartList)
             val intent = Intent()
             intent.putExtra(Constants.MY_CART_GROCERY_LIST,myCartList)
             setResult(RESULT_OK, intent)
             finish()
+
         }
     }
 

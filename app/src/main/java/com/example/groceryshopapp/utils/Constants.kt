@@ -2,7 +2,9 @@ package com.example.groceryshopapp.utils
 
 object Constants {
 
-     const val USERS:String="users"
+    val ORDERS: String="orders"
+    val ORDERLIST: String="orderlist"
+    const val USERS:String="users"
      const val CAT_LIST:String="cat_list"
      const val GROCERY_LIST:String="grocery_list"
      const val MY_CART_GROCERY_LIST:String="my_cart_grocery_list"

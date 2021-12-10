@@ -12,6 +12,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1381340579710145" />
         <entry key="app/src/main/res/layout/activity_my_cart.xml" value="0.1381340579710145" />
         <entry key="app/src/main/res/layout/activity_my_profile.xml" value="0.1381340579710145" />
+        <entry key="app/src/main/res/layout/activity_order_history.xml" value="0.21920289855072464" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.1203125" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.1381340579710145" />
@@ -19,6 +20,7 @@
         <entry key="app/src/main/res/layout/custom_progress_dialog.xml" value="0.1381340579710145" />
         <entry key="app/src/main/res/layout/item_grocery_cart_list.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_grocery_list.xml" value="0.1381340579710145" />
+        <entry key="app/src/main/res/layout/item_order_list.xml" value="0.21920289855072464" />
         <entry key="app/src/main/res/layout/layout_main_menu.xml" value="0.13728470111448834" />
         <entry key="app/src/main/res/layout/main_content.xml" value="0.1381340579710145" />
         <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.13728470111448834" />

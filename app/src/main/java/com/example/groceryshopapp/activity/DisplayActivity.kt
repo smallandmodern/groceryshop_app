@@ -31,7 +31,7 @@ class DisplayActivity : BaseActivity(), GroceryListAdapter.AddToCartClickListner
     private var binding: ActivityDisplayBinding? = null
 
     private var groceryCartList = ArrayList<GroceryModel>()
-    private var grocerylist= ArrayList<GroceryModel>()
+    private var grocerylist = ArrayList<GroceryModel>()
     private lateinit var myCart: TextView
     private lateinit var adapterGroceryList: GroceryListAdapter;
 
@@ -146,7 +146,7 @@ class DisplayActivity : BaseActivity(), GroceryListAdapter.AddToCartClickListner
     override fun onclick(position: Int, gorceryItem: GroceryModel) {
         if (groceryCartList.contains(gorceryItem)) {
             groceryCartList[groceryCartList.indexOf(gorceryItem)].orderedCount++
-           // groceryCartList[groceryCartList.indexOf(gorceryItem)].count--
+            // groceryCartList[groceryCartList.indexOf(gorceryItem)].count--
             grocerylist[grocerylist.indexOf(gorceryItem)].count--
             adapterGroceryList.notifyDataSetChanged()
         } else {
@@ -165,10 +165,10 @@ class DisplayActivity : BaseActivity(), GroceryListAdapter.AddToCartClickListner
 
         when (item.itemId) {
             R.id.item_my_cart -> {
-                if(groceryCartList.isEmpty())
-                {
-                    Toast.makeText(this,getString(R.string.no_item_in_cart),Toast.LENGTH_LONG).show()
-                }else {
+                if (groceryCartList.isEmpty()) {
+                    Toast.makeText(this, getString(R.string.no_item_in_cart), Toast.LENGTH_LONG)
+                        .show()
+                } else {
                     var intent = Intent(this@DisplayActivity, MyCartActivity::class.java)
                     intent.putExtra(Constants.MY_CART_GROCERY_LIST, groceryCartList)
                     startForResult.launch(intent)
@@ -177,12 +177,15 @@ class DisplayActivity : BaseActivity(), GroceryListAdapter.AddToCartClickListner
             R.id.item_sign_out -> {
                 FirebaseAuth.getInstance().signOut()
                 Intent(this@DisplayActivity, MainActivity::class.java)
-                //  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
                 finish()
             }
             R.id.item_my_profile -> {
-                startActivity(Intent(this@DisplayActivity, MyProfileActivity::class.java))
+                // startActivity(Intent(this@DisplayActivity, MyProfileActivity::class.java))
+            }
+            R.id.item_order_history -> {
+                startActivity(Intent(this@DisplayActivity, OrderHistoryActivity::class.java))
+
             }
         }
 

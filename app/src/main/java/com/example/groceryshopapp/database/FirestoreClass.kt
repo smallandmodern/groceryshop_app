@@ -1,15 +1,17 @@
 package com.example.groceryshopapp.database
 
-import com.example.groceryshopapp.activity.DisplayActivity
-import com.example.groceryshopapp.activity.MyCartActivity
-import com.example.groceryshopapp.activity.SignInActivity
-import com.example.groceryshopapp.activity.SignUpActivity
+import android.widget.Toast
+import com.example.groceryshopapp.activity.*
 import com.example.groceryshopapp.models.GroceryModel
 import com.example.groceryshopapp.models.UserModel
 import com.example.groceryshopapp.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class FirestoreClass {
 
@@ -24,7 +26,6 @@ class FirestoreClass {
 
         }
     }
-
 
     fun signInUser(activity: SignInActivity, email: String, password: String) {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
@@ -58,7 +59,10 @@ class FirestoreClass {
             firebaseFirestore.collection(Constants.GROCERY_LIST).document(model.id)
                 .update(assignedToHashMap).addOnCompleteListener {
 
-
+                    if(it.isCanceled)
+                    {
+                        Toast.makeText(activity,it.exception?.message,Toast.LENGTH_LONG).show()
+                    }
 
                 }
 
@@ -76,6 +80,31 @@ class FirestoreClass {
         }
         return  currentUserID
     }
+
+    fun saveOrderHistory(activity: MyCartActivity,modelList:ArrayList<GroceryModel>) {
+
+        val assignedToHashMap = HashMap<String, Any>()
+        assignedToHashMap[Constants.ORDERLIST] = modelList
+
+
+        firebaseFirestore.collection(Constants.ORDERS).document(getCurrentUserId()).collection(Constants.ORDERLIST).document(Calendar.getInstance().time.toString()).set(
+            assignedToHashMap, SetOptions.merge()
+        ).addOnCompleteListener {
+
+        }
+    }
+
+    fun getOrderHistory(activity:OrderHistoryActivity){
+
+        firebaseFirestore.collection(Constants.ORDERS).document(getCurrentUserId()).get().addOnCompleteListener {task->
+           // activity.onGetOrderHistory(task)
+        }
+
+    }
+
+
+
+
 
 
 }

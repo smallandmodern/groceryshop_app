@@ -12,7 +12,7 @@
         <item android:id="@+id/item_payment"
             android:title="@string/payment"
             />
-        <item android:id="@+id/order_history"
+        <item android:id="@+id/item_order_history"
             android:title="@string/order_history"
             />
         <item android:id="@+id/item_sign_out"

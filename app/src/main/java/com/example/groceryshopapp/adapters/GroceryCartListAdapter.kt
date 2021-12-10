@@ -36,7 +36,6 @@ class GroceryCartListAdapter(var groceryList: List<GroceryModel>) :
         var imgGrocery = binding.imgGrocery
         var txtGroceryPrice = binding.txtGroceryPrice
         var txtSubtotal=binding.txtSubtotalPrice
-       // var txtGroceryWeight = binding.txtGroceryWeight
         var btnAddToCart = binding.btnAddToCart
         var txtOrderedCount=binding.txtOrderedCount
         var btnPlus = binding.btnPlus
