@@ -5,29 +5,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.groceryshopapp.activity.DisplayActivity
 import com.example.groceryshopapp.databinding.ItemGroceryCartListBinding
-import com.example.groceryshopapp.databinding.ItemGroceryListBinding
 import com.example.groceryshopapp.models.GroceryModel
-import com.example.groceryshopapp.utils.Constants
 
 class GroceryCartListAdapter(var groceryList: List<GroceryModel>) :
     RecyclerView.Adapter<GroceryCartListAdapter.ViewHolder>() {
 
-    private var addToCartClickListner: RemoveFromCartClickListner? = null
-    private var plusButtonClickListner:PlusButtonClickListner?=null
-    private  var minusButtonClickListner:MinusButtonClickListner?=null
+    private var addToCartClickListener: RemoveFromCartClickListener? = null
+    private var plusButtonClickListener: PlusButtonClickListener? = null
+    private var minusButtonClickListener: MinusButtonClickListener? = null
 
-    fun setRemoveFromCartClickListner(clickListner: RemoveFromCartClickListner) {
-        this.addToCartClickListner = clickListner
+    fun setRemoveFromCartClickListener(clickListener: RemoveFromCartClickListener) {
+        this.addToCartClickListener = clickListener
     }
-    fun setPlusButtonClickListner(plusClickLisnter:PlusButtonClickListner)
-    {
-        this.plusButtonClickListner=plusClickLisnter
+
+    fun setPlusButtonClickListener(plusClickListener: PlusButtonClickListener) {
+        this.plusButtonClickListener = plusClickListener
     }
-    fun setMinusButtonClickListner(minusClickLisnter:MinusButtonClickListner)
-    {
-        this.minusButtonClickListner=minusClickLisnter
+
+    fun setMinusButtonClickListener(minusClickLisnter: MinusButtonClickListener) {
+        this.minusButtonClickListener = minusClickLisnter
     }
 
     class ViewHolder(binding: ItemGroceryCartListBinding) : RecyclerView.ViewHolder(binding?.root) {
@@ -35,9 +32,9 @@ class GroceryCartListAdapter(var groceryList: List<GroceryModel>) :
         var txtGroceryName = binding.txtGroceryName
         var imgGrocery = binding.imgGrocery
         var txtGroceryPrice = binding.txtGroceryPrice
-        var txtSubtotal=binding.txtSubtotalPrice
+        var txtSubtotal = binding.txtSubtotalPrice
         var btnAddToCart = binding.btnAddToCart
-        var txtOrderedCount=binding.txtOrderedCount
+        var txtOrderedCount = binding.txtOrderedCount
         var btnPlus = binding.btnPlus
         var btnMinus = binding.btnMinus
 
@@ -55,25 +52,24 @@ class GroceryCartListAdapter(var groceryList: List<GroceryModel>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         if (holder is ViewHolder) {
-            holder.txtGroceryName.text = "${groceryList[position].name} ${groceryList[position].weight}"
-            //holder.txtGroceryWeight.text = groceryList[position].weight
+            holder.txtGroceryName.text =
+                "${groceryList[position].name} ${groceryList[position].weight}"
             holder.txtGroceryPrice.text = "€ ${groceryList[position].price}"
-            holder.txtOrderedCount.text=groceryList[position].orderedCount.toString()
+            holder.txtOrderedCount.text = groceryList[position].orderedCount.toString()
+            holder.txtSubtotal.text =
+                "€" + (groceryList[position].price * groceryList[position].orderedCount).toString()
 
-            holder.txtSubtotal.text="€"+(groceryList[position].price*groceryList[position].orderedCount).toString()
 
-
-           // holder.btnAddToCart.setText(Constants.REMOVE_FROM_CART)
             holder.btnAddToCart.setOnClickListener(View.OnClickListener {
-                addToCartClickListner?.onclick(position)
+                addToCartClickListener?.onclick(position)
             })
 
 
             holder.btnPlus.setOnClickListener {
-                   plusButtonClickListner?.onclickPlusClick(position,groceryList[position])
+                plusButtonClickListener?.onclickPlusClick(position, groceryList[position])
             }
             holder.btnMinus.setOnClickListener {
-                 minusButtonClickListner?.onclickMinusClick(position,groceryList[position])
+                minusButtonClickListener?.onclickMinusClick(position, groceryList[position])
             }
 
 
@@ -88,14 +84,16 @@ class GroceryCartListAdapter(var groceryList: List<GroceryModel>) :
     }
 
 
-    public interface RemoveFromCartClickListner {
+    public interface RemoveFromCartClickListener {
         fun onclick(position: Int)
     }
-    public interface PlusButtonClickListner {
-        fun onclickPlusClick(position: Int, gorceryItem: GroceryModel)
+
+    public interface PlusButtonClickListener {
+        fun onclickPlusClick(position: Int, groceryItem: GroceryModel)
     }
-    public interface MinusButtonClickListner {
-        fun onclickMinusClick(position: Int, gorceryItem: GroceryModel)
+
+    public interface MinusButtonClickListener {
+        fun onclickMinusClick(position: Int, groceryItem: GroceryModel)
     }
 
 

@@ -35,6 +35,7 @@
     <string name="plus">+</string>
     <string name="minus">-</string>
     <string name="place_order">Place Order</string>
+    <string name="view">View</string>
 
 
 </resources>

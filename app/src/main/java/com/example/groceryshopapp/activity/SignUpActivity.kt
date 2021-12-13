@@ -8,6 +8,7 @@ import com.example.groceryshopapp.R
 import com.example.groceryshopapp.database.FirestoreClass
 import com.example.groceryshopapp.databinding.ActivitySignUpBinding
 import com.example.groceryshopapp.models.UserModel
+import com.example.groceryshopapp.utils.TextUtils
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 
@@ -104,7 +105,7 @@ class SignUpActivity : BaseActivity() {
                 showErrorSnack(getString(R.string.enter_username), view)
                 return false
             }
-            email.isEmpty() -> {
+            !TextUtils.isValidEmail(email) -> {
                 showErrorSnack(getString(R.string.enter_email), view)
                 return false
             }
@@ -121,7 +122,7 @@ class SignUpActivity : BaseActivity() {
 
     }
 
-    fun onUserRegistrationCompleteLisner(task: Task<Void>) {
+    fun onUserRegistrationCompleteListner(task: Task<Void>) {
 
         if (task.isSuccessful) {
             Toast.makeText(this, "you have successfully registered", Toast.LENGTH_LONG).show()

@@ -15,18 +15,20 @@ import com.example.groceryshopapp.utils.Constants
 class orderListAdapter(var orderList: List<OrderModel>) :
     RecyclerView.Adapter<orderListAdapter.ViewHolder>() {
 
-    private var addToCartClickListner: AddToCartClickListner? = null
+    private var viewCartClickListner: ViewCartClickListner? = null
 
-    fun setAddToCartClickListner(clickListner: AddToCartClickListner) {
-        this.addToCartClickListner = clickListner
+    fun setViewCartClickListner(clickListner: ViewCartClickListner) {
+        this.viewCartClickListner = clickListner
     }
 
     class ViewHolder(binding: ItemOrderListBinding) : RecyclerView.ViewHolder(binding?.root) {
 
         var txtOrderDate = binding.txtOderDate
+        var btnView = binding.btnView
 
 
     }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -41,6 +43,10 @@ class orderListAdapter(var orderList: List<OrderModel>) :
         if (holder is ViewHolder) {
             holder.txtOrderDate.text = orderList[position].orderlist.size.toString()
 
+            holder.btnView.setOnClickListener {
+                viewCartClickListner?.onViewCartclick(position, orderList[position])
+
+            }
         }
     }
 
@@ -49,8 +55,8 @@ class orderListAdapter(var orderList: List<OrderModel>) :
     }
 
 
-    public interface AddToCartClickListner {
-        fun onclick(position: Int, gorceryItem: GroceryModel)
+    public interface ViewCartClickListner {
+        fun onViewCartclick(position: Int, orderItem: OrderModel)
     }
 
 

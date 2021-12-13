@@ -19,7 +19,6 @@ class MainActivity : BaseActivity() {
         setContentView(binding?.root)
 
         setonClickListners()
-
     }
 
     private fun setonClickListners() {
@@ -34,7 +33,7 @@ class MainActivity : BaseActivity() {
 
             var intent = Intent(this@MainActivity, SignUpActivity::class.java)
             startActivity(intent)
-            // finish()
+
         })
     }
 }

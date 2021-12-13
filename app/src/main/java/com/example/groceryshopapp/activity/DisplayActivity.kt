@@ -6,6 +6,7 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.view.Gravity
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -20,9 +21,12 @@ import com.google.firebase.firestore.QuerySnapshot
 import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import com.example.groceryshopapp.databinding.NavHeaderMainBinding
+import com.example.groceryshopapp.models.UserModel
 import com.example.groceryshopapp.utils.Constants
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 
 
 class DisplayActivity : BaseActivity(), GroceryListAdapter.AddToCartClickListner,
@@ -41,21 +45,22 @@ class DisplayActivity : BaseActivity(), GroceryListAdapter.AddToCartClickListner
         binding = ActivityDisplayBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
-
-//        val headerView: View = binding.navigationView.getHeaderView(0)
-//        val headerBinding: DrawerHeaderBinding = DrawerHeaderBinding.bind(headerView)
-
         setSupportActionBar(binding?.includedAppbar?.toolbarDisplayActivity)
         binding?.navView?.setNavigationItemSelectedListener(this)
         setActionBar()
         fetchData()
+        fetchGroceryListData()
+    }
+
+    private fun fetchGroceryListData() {
+        FirestoreClass().getGroceryList(this);
     }
 
 
     private fun fetchData() {
 
         FirestoreClass().getCateryList(this);
-        FirestoreClass().getGroceryList(this);
+        FirestoreClass().getUserDetails(this);
     }
 
     private fun setActionBar() {
@@ -193,17 +198,36 @@ class DisplayActivity : BaseActivity(), GroceryListAdapter.AddToCartClickListner
         return true
     }
 
+    fun onUserDetailsCompleteListner(task: Task<DocumentSnapshot>) {
+
+
+        if(task.isSuccessful)
+        {
+
+            var userModel=(task?.result as DocumentSnapshot).toObject(UserModel::class.java)
+
+
+       val headerView: View = binding?.navView?.getHeaderView(0) as View
+        val headerBinding: NavHeaderMainBinding = NavHeaderMainBinding.bind(headerView)
+            headerBinding.txtUserName.text="Hello ${userModel?.name?.uppercase()}"
+
+        }
+
+    }
+
     val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val intent = result.data
-                groceryCartList =
-                    intent?.getSerializableExtra(Constants.MY_CART_GROCERY_LIST) as ArrayList<GroceryModel>
-
-
-                myCart.setText(groceryCartList.size.toString());
+                    groceryCartList= ArrayList<GroceryModel>()
+                    myCart.setText(groceryCartList.size.toString());
             }
         }
+
+    override fun onResume() {
+        super.onResume()
+        //fetchGroceryListData()
+
+    }
 
 }
 

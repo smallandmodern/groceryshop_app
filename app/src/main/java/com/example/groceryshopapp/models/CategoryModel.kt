@@ -4,8 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 
-
-data class CategoryModel (var id:String="", var name:String=""):Parcelable {
+data class CategoryModel(var id: String = "", var name: String = "") : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!

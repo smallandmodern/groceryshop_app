@@ -6,9 +6,11 @@ import androidx.annotation.Keep
 import java.io.Serializable
 
 
-data class UserModel ( var id:String ="", var email:String ="",
-                       var name: String = "",
-     var phone:String =""):Parcelable{
+data class UserModel(
+    var id: String = "", var email: String = "",
+    var name: String = "",
+    var phone: String = ""
+) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
@@ -17,7 +19,7 @@ data class UserModel ( var id:String ="", var email:String ="",
     ) {
     }
 
-    override fun writeToParcel(parcel: Parcel, flags: Int)  {
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
         parcel.writeString(email)
         parcel.writeString(name)

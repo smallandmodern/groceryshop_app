@@ -8,6 +8,7 @@ import com.example.groceryshopapp.R
 import com.example.groceryshopapp.database.FirestoreClass
 import com.example.groceryshopapp.databinding.ActivitySignInBinding
 import com.example.groceryshopapp.utils.Constants
+import com.example.groceryshopapp.utils.TextUtils
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -40,8 +41,6 @@ class SignInActivity : BaseActivity() {
         finish()
     }
 
-
-
     private fun setonClickListener() {
         binding?.btnSignUp?.setOnClickListener {
 
@@ -50,13 +49,13 @@ class SignInActivity : BaseActivity() {
 
 
             when {
-                email.isEmpty() -> {
+                !TextUtils.isValidEmail(email) -> {
                     showErrorSnack(getString(R.string.enter_email), it)
-                    //return
+
                 }
                 password.isEmpty() -> {
                     showErrorSnack(getString(R.string.enter_password), it)
-                    // return
+
 
                 }
                 else -> {

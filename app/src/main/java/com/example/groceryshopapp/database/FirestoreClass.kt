@@ -6,10 +6,8 @@ import com.example.groceryshopapp.models.GroceryModel
 import com.example.groceryshopapp.models.UserModel
 import com.example.groceryshopapp.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
-import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
@@ -18,23 +16,38 @@ class FirestoreClass {
     var firebaseFirestore = FirebaseFirestore.getInstance()
 
     fun regisrterUser(activity: SignUpActivity, userInfo: UserModel) {
+
         firebaseFirestore.collection(Constants.USERS).document(getCurrentUserId()).set(
             userInfo,
             SetOptions.merge()
         ).addOnCompleteListener {
-            activity.onUserRegistrationCompleteLisner(it)
+
+            activity.onUserRegistrationCompleteListner(it)
 
         }
     }
 
+    fun getUserDetails(activity: DisplayActivity) {
+
+        firebaseFirestore.collection(Constants.USERS).document(getCurrentUserId()).get()
+            .addOnCompleteListener {
+                activity.onUserDetailsCompleteListner(it)
+
+
+            }
+    }
+
     fun signInUser(activity: SignInActivity, email: String, password: String) {
+
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
             .addOnCompleteListener {
 
                 activity.onSignInCompleteListner(it)
             }
     }
+
     fun getCateryList(activity: DisplayActivity) {
+
         firebaseFirestore.collection(Constants.CAT_LIST).get().addOnCompleteListener {
 
             activity.onGetCatListOnSuccessListner(it)
@@ -42,13 +55,15 @@ class FirestoreClass {
     }
 
     fun getGroceryList(activity: DisplayActivity) {
-        firebaseFirestore.collection(Constants.GROCERY_LIST).get().addOnCompleteListener {
+        activity.showProgressDialog(Constants.please_wait)
 
+        firebaseFirestore.collection(Constants.GROCERY_LIST).get().addOnCompleteListener {
+            activity.hideProgressBar()
             activity.onGetGroceryListOnSuccessListner(it)
         }
     }
 
-    fun updateGroceryCountList(activity: MyCartActivity,modelList:ArrayList<GroceryModel>) {
+    fun updateGroceryCountList(activity: MyCartActivity, modelList: ArrayList<GroceryModel>) {
 
 
         modelList.forEach { model ->
@@ -59,52 +74,61 @@ class FirestoreClass {
             firebaseFirestore.collection(Constants.GROCERY_LIST).document(model.id)
                 .update(assignedToHashMap).addOnCompleteListener {
 
-                    if(it.isCanceled)
-                    {
-                        Toast.makeText(activity,it.exception?.message,Toast.LENGTH_LONG).show()
+                    if (it.isCanceled) {
+                        Toast.makeText(activity, it.exception?.message, Toast.LENGTH_LONG).show()
                     }
 
                 }
-
         }
 
+
     }
+
     fun getCurrentUserId(): String {
 
-        var currentUser=FirebaseAuth.getInstance().currentUser
-        var currentUserID=""
+        var currentUser = FirebaseAuth.getInstance().currentUser
+        var currentUserID = ""
 
-        if(currentUser!=null)
-        {
-            currentUserID=currentUser.uid
+        if (currentUser != null) {
+            currentUserID = currentUser.uid
         }
-        return  currentUserID
+        return currentUserID
     }
 
-    fun saveOrderHistory(activity: MyCartActivity,modelList:ArrayList<GroceryModel>) {
+    fun saveOrderHistory(activity: MyCartActivity, modelList: ArrayList<GroceryModel>) {
+
 
         val assignedToHashMap = HashMap<String, Any>()
         assignedToHashMap[Constants.ORDERLIST] = modelList
 
 
-        firebaseFirestore.collection(Constants.ORDERS).document(getCurrentUserId()).collection(Constants.ORDERLIST).document(Calendar.getInstance().time.toString()).set(
-            assignedToHashMap, SetOptions.merge()
-        ).addOnCompleteListener {
+//        firebaseFirestore.collection(Constants.ORDERS).document(getCurrentUserId())
+//            .collection(Constants.ORDERLIST).document(Calendar.getInstance().time.toString()).set(
+//            assignedToHashMap, SetOptions.merge()
+//        ).addOnCompleteListener {
+//
+//        }
 
-        }
+        firebaseFirestore.collection(Constants.ORDERS).document(getCurrentUserId())
+            .set(
+                assignedToHashMap, SetOptions.merge()
+            ).addOnCompleteListener {
+
+
+            }
+
     }
 
-    fun getOrderHistory(activity:OrderHistoryActivity){
+    fun getOrderHistory(activity: OrderHistoryActivity) {
 
-        firebaseFirestore.collection(Constants.ORDERS).document(getCurrentUserId()).get().addOnCompleteListener {task->
-           // activity.onGetOrderHistory(task)
-        }
+
+        firebaseFirestore.collection(Constants.ORDERS).document(getCurrentUserId()).get()
+            .addOnCompleteListener { task ->
+                activity.onGetOrderHistory(task)
+            }
+
 
     }
-
-
-
-
 
 
 }

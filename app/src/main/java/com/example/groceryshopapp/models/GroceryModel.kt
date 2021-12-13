@@ -4,15 +4,15 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class GroceryModel(
-    var catId: String="",
-    var id: String="",
-    var name: String="",
-    var count: Int=0,
-    var imgSrc: String="",
-    var weight: String="",
-    var price:Double=0.0,
-    var orderedCount:Int=0
-):Parcelable {
+    var catId: String = "",
+    var id: String = "",
+    var name: String = "",
+    var count: Int = 0,
+    var imgSrc: String = "",
+    var weight: String = "",
+    var price: Double = 0.0,
+    var orderedCount: Int = 0
+) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,

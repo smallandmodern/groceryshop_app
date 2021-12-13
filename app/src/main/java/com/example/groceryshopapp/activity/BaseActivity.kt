@@ -39,12 +39,8 @@ open class BaseActivity : AppCompatActivity() {
         dialogBinding = CustomProgressDialogBinding.inflate(
             LayoutInflater.from(getApplicationContext()), null, false
         )
-
         dialogBinding?.txtProgressBar?.setText(text)
-
-
         mProgressDialog?.setContentView(dialogBinding?.getRoot() as View)
-
         mProgressDialog?.show()
 
     }
@@ -75,8 +71,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun showErrorSnack(message: String, view: View) {
-        val snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
-
-        snackbar.show()
+        val snackBar = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+        snackBar.show()
     }
 }

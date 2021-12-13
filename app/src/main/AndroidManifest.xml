@@ -58,7 +58,7 @@
         <activity
             android:name=".activity.MainActivity"
             android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/Theme.GroceryShopApp"
             android:screenOrientation="portrait"
             >
         </activity>

@@ -43,8 +43,8 @@ class GroceryListAdapter(var groceryList: List<GroceryModel>) :
         if (holder is ViewHolder) {
             holder.txtGroceryName.text = groceryList[position].name
             holder.txtGroceryWeight.text = groceryList[position].weight
-           //holder.txtGroceryPrice.text = "€ ${groceryList[position].price}"
-            holder.txtGroceryPrice.text = "€ "+groceryList[position].price.toString()
+
+            holder.txtGroceryPrice.text = "€ " + groceryList[position].price.toString()
 
             if (groceryList[position].count > 0) {
                 holder.btnAddToCart.setText(Constants.ADD_TO_CART)
